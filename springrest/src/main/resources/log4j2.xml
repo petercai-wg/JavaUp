@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Property>
+        <Property name="APP_LOG_ROOT">c:/temp</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+ 
+        <RollingFile name="appLog"
+            fileName="${APP_LOG_ROOT}/logs/application.log"
+            filePattern="${APP_LOG_ROOT}/logs/application-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+    			<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+		    </Policies>
+		    <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+ 
+    </Appenders>
+    <Loggers>
+  
+        <Logger name="com.controller" level="INFO" additivity="false">
+            <AppenderRef ref="appLog" />
+            <AppenderRef ref="Console" />
+        </Logger>
+ 
+        <Root level="INFO">
+            <AppenderRef ref="Console" />
+             <AppenderRef ref="appLog" />
+        </Root>
+    </Loggers>
+</Configuration>

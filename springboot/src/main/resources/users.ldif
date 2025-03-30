@@ -1,0 +1,63 @@
+dn: dc=rbccm,dc=com
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: rbccm
+
+# Organizational Units
+dn: ou=groups,dc=rbccm,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=rbccm,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+# Create People
+dn: uid=john,ou=people,dc=rbccm,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: John Doe
+sn: John
+uid: john
+password: secret
+
+dn: uid=jim,ou=people,dc=rbccm,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jim King
+sn: Jim
+uid: Jim
+password: secret
+
+dn: uid=bob,ou=people,dc=rbccm,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Bob Fisker
+sn: Bob
+uid: Bob
+password: secret
+
+# Create Groups
+dn: cn=developers,ou=groups,dc=rbccm,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: developers
+ou: developer
+uniqueMember: uid=john,ou=people,dc=rbccm,dc=com
+uniqueMember: uid=jihn,ou=people,dc=rbccm,dc=com
+
+dn: cn=managers,ou=groups,dc=rbccm,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: managers
+ou: manager
+uniqueMember: uid=jahn,ou=people,dc=rbccm,dc=com

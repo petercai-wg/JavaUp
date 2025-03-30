@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- META SECTION -->
+    <title>SpringBoot search Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- END META SECTION -->
+    <!--  BEGIN STYLE -->
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            padding: 1px;
+        }
+    </style>
+    <!--  END STYLE -->
+
+</head>
+<body>
+ <a th:href="@{/}">Search </a>
+ <br/>
+    
+    <div th:if="${not #lists.isEmpty(search)}">
+        <h2>Search Results</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>name</th>
+                <th>rarity level</th>
+                <th>year</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="search : ${search}">
+                <td th:text="${search.id}"></td>
+                <td th:text="${search.name}"></td>
+                <td th:text="${search.rarityLevel}"></td>
+                <td th:text="${search.year}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

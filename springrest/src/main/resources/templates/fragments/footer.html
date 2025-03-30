@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<body>
+<div th:fragment="footer">
+
+<hr>
+        <footer>
+       
+        &copy; 2020 Cooltech Limit Co.
+            <span sec:authorize="isAuthenticated()">
+                | Logged user: <span sec:authentication="name"></span> |
+                Roles: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/logout}">Sign Out</a>
+            </span>    
+            <!-- 
+            <p th:text="${_csrf.token}">CSRF</p>  
+  -->
+        </footer>
+</div>
+</body>
+</html>

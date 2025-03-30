@@ -1,0 +1,7 @@
+
+To use GitHub’s OAuth 2.0 authentication system for login, you must first Add a new GitHub app.
+https://github.com/settings/developers
+
+add created to application.properties
+            client-id: 03779b994ce3883d727d
+            client-secret: f1f720aba8ce6287611672ed64ec8602c2104a9e

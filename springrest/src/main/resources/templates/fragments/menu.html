@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div th:fragment="menu(activeTab)">
+ 
+
+<!-- A grey horizontal navbar that becomes vertical on small screens -->
+<nav class="navbar navbar-expand-sm bg-light">
+
+  <!-- Links -->
+  <ul class="nav nav-tabs">
+  
+    <li class="nav-item ml-2" >
+     <a  th:class="${activeTab == 'home'}? 'btn btn-primary active' : 'btn btn-info'" th:href="@{/}">Home</a>
+    </li>
+	<li class="nav-item ml-2" >
+     <a  th:class="${activeTab == 'jsp'}? 'btn btn-primary active' : 'btn btn-info'" th:href="@{/testjsp}">JSP</a>
+    </li>    
+    <li class="nav-item ml-2">
+     <a   th:class="${activeTab == 'list-employees'}? 'btn btn-primary active' : 'btn btn-info'" th:href="@{/employee}">List Emoloyees</a>
+    </li>
+     <li class="nav-item ml-2">
+     <a   th:class="${activeTab == 'reactjs'}? 'btn btn-primary active' : 'btn btn-info'" th:href="@{/isolate}">ReactJS</a>
+    </li>
+   
+  </ul>
+
+</nav> 
+
+
+</div>
+</body>
+</html>

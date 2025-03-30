@@ -1,0 +1,32 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 03779b994ce3883d727d
+            client-secret: f1f720aba8ce6287611672ed64ec8602c2104a9e
+
+user:
+  name: petercai
+  password: ENC(ExryToQHM+qtUxVu8/8FNg==)
+ 
+ 
+            
+server:
+  port: 8090  
+
+
+            
+
+###  cd C:\workspace\spring-boot-oauth2    
+### C:\app\apache-maven\apache-maven-3.2.5\bin\mvn jasypt:encrypt-value -Djasypt.encryptor.password=peter -Djasypt.encryptor.algorithm=PBEWithMD5AndDES -Djasypt.encryptor.iv-generator-classname=org.jasypt.iv.NoIvGenerator   -Djasypt.plugin.value=pwd@123
+
+### C:\app\apache-maven\apache-maven-3.2.5\bin\mvn jasypt:decrypt-value -Djasypt.encryptor.password=peter -Djasypt.plugin.value=ENC(ExryToQHM+qtUxVu8/8FNg==)
+###C:\app\apache-maven\apache-maven-3.2.5\bin\mvn  jasypt:encrypt -Djasypt.encryptor.password=simple -Djasypt.plugin.path="file:src/main/resources/application.yml"
+
+###t will replace the ENC(f/OWQlNI3BtEvXzKnYuB2oPMZtX/n1SUrREIjj9GR+0Lxisi6ycWLZrvRy8bCvfn) placeholders in the application.yml file with the encrypted value:
+
+## export JASYPT_ENCRYPTOR_PASSWORD=hello   
+
+##C:\app\apache-maven\apache-maven-3.2.5\bin\mvn  -Djasypt.encryptor.password=peter spring-boot:run

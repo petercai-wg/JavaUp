@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    <title>
+	datatable Example</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--   
+<script  src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+<script  src="http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script  src="http://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+<script  src="https://cdn.datatables.net/select/1.1.0/js/dataTables.select.min.js"></script>
+
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js" >
+</script>
+
+<link rel="stylesheet"  href="http://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
+<link rel="stylesheet"  href="http://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" />
+<link rel="stylesheet"  href="http://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" />
+-->
+
+<script type="text/javascript"  src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript"  src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    <script type="text/javascript">
+    
+   
+			$(document).ready( function() {
+				$.ajax({
+					url: "http://localhost:8080",
+					method" 'get',
+					dataType: 'json',
+					success: function(data){
+						$('#mytable').DataTable({
+							data: data,
+							columns:[
+							    {'data': 'id'},
+							    {'data': 'name'},
+							    {'data': 'rarityLevel'},
+							    {'data': 'year'}
+					         ]
+						});
+					}
+				});
+			} );
+   
+    </script>
+</head>
+
+<body>
+
+<table id="mytable" >
+<thead>
+           <thead>
+            <tr>
+                <th>ID</th>
+                <th>name</th>
+                <th>rarity level</th>
+                <th>year</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td></td>
+            </tr>
+            </tbody>
+</table>
+ 
+</body>
+</html>

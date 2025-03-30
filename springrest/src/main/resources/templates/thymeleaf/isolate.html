@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My React course App</title>
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  
+  <header th:insert="fragments/header.html :: header"> </header>
+</head>
+
+
+ 
+<body>
+ <div th:insert="fragments/menu.html :: menu(reactjs)"> </div> 
+ 
+ 
+  <div id="app"></div>
+
+  <script src="/scripts/bundle.js"></script>
+  
+  <div th:insert="fragments/footer.html :: footer"> </div> 
+  
+</body>
+
+</html>
