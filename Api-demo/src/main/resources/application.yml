@@ -1,0 +1,38 @@
+
+server:
+  port: 9080
+
+ibm:
+  mq:
+    # Core Connection Settings
+    queueManager: "QM1"
+    channel: "DEV.APP.SVRCONN"
+    connName: "localhost(1414)" # Format: hostname(port). Separate multiple hosts with commas.
+    user: "app"
+    password: "apwd"
+    transacted: true
+
+    # Client Connection Mode (Default is 1 / Client mode)
+    # 1 = Client mode (TCP/IP), 0 = Bindings mode (Local JVM memory connection)
+    connectionMode: 1
+
+    # Connection Pooling Settings (Requires org.messaginghub:pooled-jms dependency)
+    pool:
+      enabled: true
+      maxConnections: 10
+      idleTimeout: 30000 # Milliseconds before closing idle connections
+      expiryTimeout: 0 # Milliseconds before replacing a connection (0 = disabled)
+
+#    # SSL / TLS Security Settings (Optional)
+#    # Enable these only if your MQ Channel uses an SSL Cipher Spec
+#    ssl:
+#      cipherSuite: "TLS_RSA_WITH_AES_256_CBC_SHA256" # Must match the CipherSpec on the MQ Channel
+#      keyStore: "classpath:keystore.jks"
+#      keyStorePassword: "keystore_password"
+#      trustStore: "classpath:truststore.jks"
+#      trustStorePassword: "truststore_password"
+
+# Custom application properties for your code to reference
+project:
+  mq:
+    queue-name: "DEV.QUEUE.1"
