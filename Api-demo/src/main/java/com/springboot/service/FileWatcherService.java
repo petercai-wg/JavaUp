@@ -6,125 +6,120 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.file.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileWatcherService {
 
-    @Value("${watch.file}")
-    private String fileName;
+    @Value("${watch.folder}")
+    private String folder;
 
+    private WatchService watchService;
+    private Thread watcherThread;
     private volatile boolean running = true;
 
-    private Thread watcherThread;
-
     @PostConstruct
-    public void start() {
+    public void start() throws IOException {
 
-        watcherThread = new Thread(this::watchFile);
-        watcherThread.setName("FileWatcher");
+        Path path = Paths.get(folder);
+
+        watchService = FileSystems.getDefault().newWatchService();
+
+        path.register(
+                watchService,
+                StandardWatchEventKinds.ENTRY_CREATE
+        );
+
+        watcherThread = new Thread(this::watchFolder);
+        watcherThread.setName("FolderWatcher");
         watcherThread.start();
+
+        System.out.println("Watching folder: " + folder);
     }
 
     @PreDestroy
-    public void stop() {
+    public void stop() throws IOException {
 
         running = false;
 
         if (watcherThread != null) {
             watcherThread.interrupt();
         }
+
+        if (watchService != null) {
+            watchService.close();
+        }
     }
 
-    private void watchFile() {
+    private void watchFolder() {
+
+        while (running) {
+
+            WatchKey key;
+
+            try {
+                key = watchService.take();
+            } catch (Exception e) {
+                break;
+            }
+
+            for (WatchEvent<?> event : key.pollEvents()) {
+
+                if (event.kind() != StandardWatchEventKinds.ENTRY_CREATE)
+                    continue;
+
+                Path fileName = (Path) event.context();
+                Path fullPath = Paths.get(folder).resolve(fileName);
+
+                System.out.println("\nNew file detected: " + fullPath);
+
+                processFile(fullPath);
+            }
+
+            key.reset();
+        }
+    }
+
+    private void processFile(Path file) {
 
         try {
+            waitUntilCopyFinished(file);
+            List<String> lines = Files.readAllLines(file);
 
-            Path file = Paths.get(fileName);
-            Path directory = file.getParent();
+            System.out.println("------ File Content ------");
 
-            WatchService watchService =
-                    FileSystems.getDefault().newWatchService();
-
-            directory.register(
-                    watchService,
-                    StandardWatchEventKinds.ENTRY_MODIFY,
-                    StandardWatchEventKinds.ENTRY_CREATE,
-                    StandardWatchEventKinds.ENTRY_DELETE
-            );
-
-            long lastPosition = 0;
-
-            if (Files.exists(file)) {
-                lastPosition = Files.size(file);
+            for (String line : lines) {
+                System.out.println(line);
             }
+            // Remove line separators and concatenate
+            String contentStr = String.join("", lines);
 
-            System.out.println("Watching " + file);
+            System.out.println(contentStr);
 
-            while (running) {
-
-                WatchKey key;
-
-                try {
-                    key = watchService.take();
-                } catch (InterruptedException e) {
-                    break;
-                }
-
-                for (WatchEvent<?> event : key.pollEvents()) {
-
-                    Path changed = (Path) event.context();
-
-                    if (!changed.equals(file.getFileName()))
-                        continue;
-
-                    WatchEvent.Kind<?> kind = event.kind();
-
-                    if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
-
-                        System.out.println("File deleted.");
-                        lastPosition = 0;
-                        continue;
-                    }
-
-                    if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-
-                        System.out.println("File created.");
-                        lastPosition = 0;
-                    }
-
-                    if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
-
-                        lastPosition = printNewLines(file, lastPosition);
-                    }
-                }
-
-                key.reset();
-            }
-
-            watchService.close();
+//            String content = Files.lines(file).collect(Collectors.joining());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Cannot read " + file + ": " + e.getMessage());
         }
     }
 
-    private long printNewLines(Path file, long position) throws IOException {
+    private void waitUntilCopyFinished(Path file)
+            throws IOException, InterruptedException {
 
-        try (RandomAccessFile raf =
-                     new RandomAccessFile(file.toFile(), "r")) {
+        long previousSize = -1;
 
-            raf.seek(position);
+        while (true) {
 
-            String line;
+            long currentSize = Files.size(file);
 
-            while ((line = raf.readLine()) != null) {
-                System.out.println("Received: " + line);
+            if (currentSize == previousSize) {
+                break;
             }
 
-            return raf.getFilePointer();
+            previousSize = currentSize;
+            Thread.sleep(500);
         }
     }
-
 }
