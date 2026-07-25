@@ -27,41 +27,39 @@
 
 </div>
 
-<div class="container mt-4">
+<div class="container">
     <div class="d-flex justify-content-between">
         <h1>Home Page</h1>
     </div>
 
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <form method="Get" action="/web/list">
-                <div class="input-group">
-                    <input
-                            type="text"
-                            class="form-control"
-                            name="keyword"
-                            placeholder="Search ..."
-                            th:value="${keyword}">
-
-                    <button class="btn btn-primary mx-3 px-1" type="submit">
-                        Search
-                    </button>
-                </div>
-            </form>
-        </div>
+    <form method="Get" action="/web/list">
+    <div class="row col-md-6">
+            <div class="input-group">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="keyword"
+                        placeholder="Search ..."
+                        th:value="${keyword}">
+                &nbsp;&nbsp;
+                <button class="btn btn-primary" type="submit">
+                    Search
+                </button>
+            </div>
     </div>
+    </form>
 
     <form action="/web/releaseSelected"
           method="post"
           onsubmit="return confirmSubmitSelected();">
-        <button class="btn btn-primary"
+        <button class="btn btn-primary p-1 m-1"
                 type="submit">
             Submit Selected
         </button>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
-            <th width="40">
+            <th width="10px">
             </th>
             <th>ID</th>
             <th>Name</th>
@@ -85,10 +83,10 @@
             <td>
                 <a      hx-get="/web/server/{id}(id=${server.id})"
                         th:attr="hx-get=@{/web/server/{id}(id=${server.id})}"
-                        hx-target="#details"
+                        hx-target="#detail"
                         hx-swap="innerHTML">
                     <button type="button"
-                            class="btn btn-primary btn-sm">View Detail</button>
+                            class="btn btn-info btn-sm">View Detail</button>
                 </a>
                         <!--                <form th:action="@{/web/release/{id}(id=${server.id})}"-->
 <!--                      method="post"-->
@@ -102,10 +100,12 @@
         </tbody>
     </table>
     </form>
+
+    <div id="detail">
+    </div>
+
 </div>
 
-<div id="details">
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
