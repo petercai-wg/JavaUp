@@ -8,10 +8,14 @@ import jakarta.jms.JMSException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 @Configuration
+@EnableJms
+@Profile("jms")
 public class JmsConfig {
 
     @Value("${ibm.mq.queueManager}")

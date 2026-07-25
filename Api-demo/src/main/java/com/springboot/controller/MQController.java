@@ -1,5 +1,6 @@
 package com.springboot.controller;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import com.springboot.mq.MQProducerService;
 
 @RestController
 @RequestMapping("/api/mq")
+@Profile("mq")
 public class MQController {
     @Autowired
     private MQProducerService producerService;

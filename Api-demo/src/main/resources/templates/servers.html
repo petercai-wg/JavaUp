@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+
+</head>
+
+<body>
+
+<h2>Server List</h2>
+
+<div id="loading" class="htmx-indicator">
+    Processing request, please wait...
+</div>
+
+
+<div id="tableDiv"
+     th:replace="~{fragments :: table}">
+</div>
+
+
+
+<hr>
+
+<h2>Selected Server</h2>
+
+<div id="details">
+
+    Click a server...
+
+</div>
+
+</body>
+
+</html>

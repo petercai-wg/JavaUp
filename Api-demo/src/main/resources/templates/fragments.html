@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- ================= TABLE ================= -->
+
+<div th:fragment="table" id="tableDiv">
+
+    <table border="1">
+
+        <tr>
+
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+
+        </tr>
+
+        <tr th:each="server : ${servers}">
+
+            <td>
+
+                <a
+                        hx-get="/web/server/{id}(id=${server.id})"
+                        th:attr="hx-get=@{/web/server/{id}(id=${server.id})}"
+                        hx-target="#details"
+                        hx-swap="innerHTML">
+
+                    <span th:text="${server.id}"></span>
+
+                </a>
+
+            </td>
+
+            <td th:text="${server.name}"></td>
+
+            <td th:text="${server.status}"></td>
+
+            <td>
+                <button
+                        hx-post="/web/servertoggle/{id}(id=${server.id})"
+                        th:attr="hx-post=@{/web/servertoggle/{id}(id=${server.id})}"
+                        hx-target="#tableDiv"
+                        hx-swap="outerHTML"
+                        hx-indicator="#loading">
+                                    Toggle
+                                </button>
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+<!-- ================= DETAILS ================= -->
+
+<textarea th:fragment="details" id="details" class="textarea-details"  readonly
+          th:text=${server.xmlStr} ></textarea>
+
+</body>
+
+</html>

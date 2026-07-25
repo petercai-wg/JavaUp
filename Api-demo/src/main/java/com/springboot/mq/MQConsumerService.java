@@ -1,11 +1,13 @@
 package com.springboot.mq;
 
 import jakarta.jms.TextMessage;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import jakarta.jms.Message;
 
 @Component
+@Profile("jms")
 public class MQConsumerService {
 
     @JmsListener(destination = "${project.mq.queue-name}")

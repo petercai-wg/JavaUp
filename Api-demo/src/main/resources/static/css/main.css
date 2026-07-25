@@ -1,0 +1,11 @@
+.textarea-details {
+  width: 100%;
+  height: 100px;
+  max-width: 100%;
+  border: 5px solid #ccc;
+  border-radius: 4px;
+  overflow: auto;
+  display: block;
+  margin: 0.5rem auto;
+  text-align: left;
+}

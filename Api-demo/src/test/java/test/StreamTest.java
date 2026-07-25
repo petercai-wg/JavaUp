@@ -1,6 +1,5 @@
 package test;
 
-import org.example.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

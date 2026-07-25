@@ -2,10 +2,12 @@ package com.springboot.mq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("jms")
 public class MQProducerService {
     @Autowired
     private final JmsTemplate jmsTemplate;
