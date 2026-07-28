@@ -90,3 +90,18 @@ double salary = rs.getDouble("SALARY");
             e.printStackTrace();
 }
     }
+
+
+
+public boolean updateEmployeeProfile(Long empId, String newEmail, Double newSalary) {
+        // Standard SQL UPDATE syntax (Oracle compatible)
+                            String sql = "UPDATE employees SET email = ?, salary = ? WHERE employee_id = ?";
+
+// Execute the update and pass parameters in order
+    // jdbcTemplate.update returns the number of rows affected
+    int rowsAffected = jdbcTemplate.update(sql, newEmail, newSalary, empId);
+
+System.out.println("Rows updated in Oracle DB: " + rowsAffected);
+
+return rowsAffected > 0;
+}
