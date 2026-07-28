@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-
 <!-- ================= DETAILS ================= -->
 
-<textarea th:fragment="detail" id="detail" class="textarea-details"  readonly
-          th:text=${server.xmlStr} ></textarea>
+<form th:action="@{/web/submit}" th:object="${server}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{name}" />
+    <div class="row">
+        <div class="col-4">
+        <textarea class="textarea-details"
+                  th:field="*{xmlStr}" ></textarea>
+        </div>
+        <div class="col-2">
+        <textarea class="textarea-details"
+                  th:field="*{location}" ></textarea>
+        </div>
 
+        <div class="col-4">
+        <textarea class="textarea-details"  readonly
+                  th:text="${server.xmlStr}" ></textarea>
+        </div>
+
+    </div>
+    <button type="submit">Submit</button>
+</form>
 </html>

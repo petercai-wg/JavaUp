@@ -60,6 +60,15 @@ public class UserWebController {
 
     }
 
+    @PostMapping("/submit")
+    public String processForm(@ModelAttribute("sever") ServerStatus formData, Model model) {
+        System.out.println("Received submitted input: " + formData.getId() + " :  " + formData.getName()
+                    + " , " +    formData.getXmlStr());
+
+        model.addAttribute( "message",
+                "submitted input: " + formData.getId() + " :  " + formData.getName() + " at " + formData.getLocation() + " has been sent to MQ for processing");
+        return "list";
+    }
 
 //    ***********************************************************//
     @GetMapping("/serverstatus")
