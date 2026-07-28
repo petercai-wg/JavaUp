@@ -105,3 +105,50 @@ System.out.println("Rows updated in Oracle DB: " + rowsAffected);
 
 return rowsAffected > 0;
 }
+
+    public static void main(String[] args) {
+        // Parametrized SQL statement to prevent SQL injection
+        String updateSql = "UPDATE employees SET email = ?, salary = ? WHERE employee_id = ?";
+
+// Test variables
+        String newEmail = "updated_email@example.com";
+double newSalary = 75000.00;
+        long employeeId = 100L;
+
+// Try-with-resources automatically closes Connection and PreparedStatement
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
+
+            System.out.println("Connected to Oracle Database successfully.");
+
+// Disable auto-commit to manage the transaction boundary manually
+            conn.setAutoCommit(false);
+
+// Bind values to the question mark (?) placeholders in order
+            pstmt.setString(1, newEmail);
+            pstmt.setDouble(2, newSalary);
+            pstmt.setLong(3, employeeId);
+
+            System.out.println("Executing update statement...");
+
+// executeUpdate() returns the number of rows modified
+            int rowsAffected = pstmt.executeUpdate();
+
+// Commit the changes to the database
+            conn.commit();
+
+            System.out.println("Transaction committed successfully.");
+            System.out.println("Rows updated in Oracle DB: " + rowsAffected);
+
+            if (rowsAffected == 0) {
+                System.out.println("Warning: No records matched the given Employee ID.");
+}
+
+        } catch (SQLException e) {
+            System.err.println("Database error occurred! Transaction will be rolled back if applicable.");
+            e.printStackTrace();
+} catch (Exception e) {
+            System.err.println("General system error occurred!");
+            e.printStackTrace();
+}
+    }
