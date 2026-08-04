@@ -1,0 +1,23 @@
+$ docker pull apache/kafka:4.3.0
+$ docker run -p 9092:9092 --detach --name kafka-server apache/kafka:4.3.0 
+
+docker exec -it kafka-server /bin/bash
+
+## create with partition
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic my-new-topic --partitions 3  --replication-factor 1
+
+## list consumer group
+/opt/kafka/bin/kafka-consumer-groups.sh   --bootstrap-server localhost:9092   --list
+
+/opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092   --describe --group my-debug-group --state
+/opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092   --describe --group my-debug-group --members --verbose
+
+## print detail messge
+/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-new-topic   --from-beginning
+/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-new-topic   --from-beginning   --property print.partition=true   --property print.offset=true --property print.timestamp=true --property print.key=true
+
+## reset offset
+/opt/kafka/bin/kafka-consumer-groups.sh  --bootstrap-server localhost:9092   --group my-debug-group --topic my-new-topic  --reset-offsets   --to-offset 0   --execute
+
+curl -X POST "http://localhost:9080/api/kafka/publish" --data-urlencode "message=Hello Kafka!"
+
