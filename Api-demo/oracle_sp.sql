@@ -152,3 +152,25 @@ double newSalary = 75000.00;
             e.printStackTrace();
 }
     }
+
+
+-- Verify Auto Commit
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+public void checkAutoCommit() {
+
+        jdbcTemplate.execute((ConnectionCallback<Void>) conn -> {
+
+            System.out.println(conn.getAutoCommit());
+
+            return null;
+        });
+}
+
+@Bean
+public PlatformTransactionManager transactionManager(
+        DataSource dataSource) {
+
+    return new DataSourceTransactionManager(dataSource);
+}
