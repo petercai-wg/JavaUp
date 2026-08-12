@@ -73,6 +73,9 @@ public class XmlFormatter {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document =   builder.parse(new InputSource(new StringReader(formattedXml)));
 
+        document.getDocumentElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI,
+                "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+
         Element supplemental =   document.createElement("Supplemental");
 
         Element risk =    document.createElement("RiskScore");
@@ -103,11 +106,8 @@ public class XmlFormatter {
         body.appendChild(supplemental);
 
         TransformerFactory tf = TransformerFactory.newInstance();
-
         Transformer transformer = tf.newTransformer();
-
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
         StringWriter writer = new StringWriter();
 
         transformer.transform( new DOMSource(document),  new StreamResult(writer));
@@ -128,7 +128,12 @@ public class XmlFormatter {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
             transformer.transform(xmlInput, xmlOutput);
-            return xmlOutput.getWriter().toString();
+            String outputXml = xmlOutput.getWriter().toString();
+            // remove blank line
+            outputXml = outputXml.replaceAll("\\n\\s*\\n", "\n");
+
+            return outputXml;
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to format XML string", e);
         }
